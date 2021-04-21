@@ -11,7 +11,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          print(state);
+          // print(state);
           if (state.isLogged) {
             Navigator.pushNamedAndRemoveUntil(
                 context, 'products', (route) => false);

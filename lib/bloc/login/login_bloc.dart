@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:productos/bloc/auth/auth_bloc.dart';
 import 'package:productos/providers/auth_provider.dart';
+import 'package:productos/share_prefs/user_preferences.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -12,6 +13,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthBloc authBloc;
 
   LoginBloc({this.authBloc}) : super(LoginState());
+  final _userPreferences = UserPreferences();
 
   final authProvider = new AuthProvider();
 
@@ -48,26 +50,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       // print(response['ok']);
       // print(response['token'] ?? response['message']);
       if (response['ok']) {
+        _userPreferences.token = response['token'];
         yield state.copyWith(
-            isLoading: false,
-            // isLogged: response['ok'],
-            // token: response['token'],
-            // userEmail: response['email'],
-            email: '',
-            password: '',
-            isValid: false);
+            isLoading: false, email: '', password: '', isValid: false);
         this.authBloc.add(AuthSuccess(
             isLogged: true,
             token: response['token'],
             userEmail: response['email']));
-      } else {
-        yield state.copyWith(
-          isLoading: false,
-          // isLogged: response['ok']
-        );
       }
     } catch (e) {
       print(e);
+    } finally {
       yield state.copyWith(isLoading: false);
     }
   }
