@@ -34,4 +34,18 @@ class Product {
         "available": available,
         "photoUrl": photoUrl,
       };
+
+  Product copyWith({
+    String id,
+    String title,
+    double value,
+    bool available,
+    String photoUrl,
+  }) =>
+      Product(
+          id: id ?? this.id,
+          title: title ?? this.title,
+          value: value ?? this.value,
+          available: available ?? this.available,
+          photoUrl: photoUrl ?? this.photoUrl);
 }

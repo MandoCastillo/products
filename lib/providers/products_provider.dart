@@ -6,11 +6,11 @@ import 'package:productos/share_prefs/user_preferences.dart';
 import 'package:productos/utils/const.dart';
 
 class ProductsProvider {
+  final _url = '${Const.baseUrlApi}/products';
   final _userPreferences = UserPreferences();
 
   Future<List<Product>> getProducts() async {
-    final _endpoint = Uri.parse(
-        '${Const.baseUrlApi}/products.json?auth=${_userPreferences.token}');
+    final _endpoint = Uri.parse('$_url.json?auth=${_userPreferences.token}');
 
     final response = await http.get(_endpoint);
 
@@ -26,8 +26,14 @@ class ProductsProvider {
       products.add(prodTemp);
     });
 
-    // print(products);
-
     return products;
+  }
+
+  Future<Product> addProduct(Product product) async {
+    final _endpoint = Uri.parse('$_url.json?auth=${_userPreferences.token}');
+    final response = await http.post(_endpoint, body: productToJson(product));
+    final decodeData = json.decode(response.body);
+    // print(decodeData);
+    return product.copyWith(id: decodeData['name']);
   }
 }

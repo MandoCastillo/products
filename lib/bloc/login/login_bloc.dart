@@ -11,11 +11,10 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthBloc authBloc;
+  final _userPreferences = UserPreferences();
+  final authProvider = new AuthProvider();
 
   LoginBloc({this.authBloc}) : super(LoginState());
-  final _userPreferences = UserPreferences();
-
-  final authProvider = new AuthProvider();
 
   @override
   Stream<LoginState> mapEventToState(
@@ -47,8 +46,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     yield state.copyWith(isLoading: true);
     try {
       final response = await authProvider.login(state.email, state.password);
-      // print(response['ok']);
-      // print(response['token'] ?? response['message']);
       if (response['ok']) {
         _userPreferences.token = response['token'];
         yield state.copyWith(

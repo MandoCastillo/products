@@ -9,18 +9,25 @@ class ProductsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Sin datos'),
       ),
-      body: ProductsList(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, 'products-form');
-        },
-        child: Icon(Icons.add),
-      ),
+      body: _ProductsList(),
+      floatingActionButton: _FabAddProduct(),
     );
   }
 }
 
-class ProductsList extends StatelessWidget {
+class _FabAddProduct extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        Navigator.pushNamed(context, 'products-form');
+      },
+      child: Icon(Icons.add),
+    );
+  }
+}
+
+class _ProductsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productsBloc = BlocProvider.of<ProductsBloc>(context);

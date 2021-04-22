@@ -19,6 +19,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ) async* {
     if (event is GetProducts) {
       yield* _mapProductsGetProducts(event, state);
+    } else if (event is AddProduct) {
+      yield _mapProductsAddProduct(event, state);
     }
   }
 
@@ -27,11 +29,14 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     yield state.copyWith(isLoading: true);
     try {
       final response = await productsProvider.getProducts();
-      // print(response);
       yield state.copyWith(products: response, isLoading: false);
     } catch (e) {
       print(e);
       yield state.copyWith(isLoading: false);
     }
+  }
+
+  ProductsState _mapProductsAddProduct(AddProduct event, ProductsState state) {
+    return state.copyWith(products: [...state.products, event.product]);
   }
 }

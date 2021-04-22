@@ -1,6 +1,22 @@
 part of 'product_bloc.dart';
 
-@immutable
-abstract class ProductState {}
+class ProductState {
+  final Product product;
+  final bool isLoading;
+  final bool isValid;
+  final bool isFinished;
 
-class ProductInitial extends ProductState {}
+  ProductState(
+      {this.product,
+      this.isLoading = false,
+      this.isValid,
+      this.isFinished = false});
+
+  ProductState copyWith(
+          {Product product, bool isLoading, bool isValid, bool isFinished}) =>
+      ProductState(
+          product: product ?? this.product,
+          isLoading: isLoading ?? this.isLoading,
+          isValid: isValid ?? this.isValid,
+          isFinished: isFinished ?? this.isFinished);
+}
