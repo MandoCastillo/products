@@ -44,4 +44,14 @@ class ProductsProvider {
     // print(decodeData);
     return true;
   }
+
+  Future<bool> deleteProduct(String id) async {
+    final _endpoint =
+        Uri.parse('$_url/$id.json?auth=${_userPreferences.token}');
+    final res = await http.delete(_endpoint);
+    if (res.statusCode == 200) {
+      return true;
+    }
+    return false;
+  }
 }

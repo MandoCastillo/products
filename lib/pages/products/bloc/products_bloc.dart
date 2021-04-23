@@ -11,7 +11,7 @@ part 'products_state.dart';
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc() : super(ProductsState());
 
-  final ProductsProvider productsProvider = new ProductsProvider();
+  final ProductsProvider _productsProvider = new ProductsProvider();
 
   @override
   Stream<ProductsState> mapEventToState(
@@ -23,6 +23,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       yield _mapProductsAddProduct(event, state);
     } else if (event is UpdateProduct) {
       yield _mapProductsUpdateProduct(event, state);
+    } else if (event is DeleteProduct) {
+      yield* _mapProductsDeleteProduct(event, state);
     }
   }
 
@@ -30,7 +32,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       ProductsEvent event, ProductsState state) async* {
     yield state.copyWith(isLoading: true);
     try {
-      final response = await productsProvider.getProducts();
+      final response = await _productsProvider.getProducts();
       yield state.copyWith(products: response, isLoading: false);
     } catch (e) {
       print(e);
@@ -49,5 +51,18 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
             .map((product) =>
                 product.id == event.product.id ? event.product : product)
             .toList());
+  }
+
+  Stream<ProductsState> _mapProductsDeleteProduct(
+      DeleteProduct event, ProductsState state) async* {
+    try {
+      final res = await _productsProvider.deleteProduct(event.id);
+      if (res) {
+        yield state.copyWith(
+            products: state.products
+                .where((product) => product.id != event.id)
+                .toList());
+      }
+    } catch (e) {}
   }
 }

@@ -16,3 +16,9 @@ class UpdateProduct extends ProductsEvent {
 
   UpdateProduct(this.product);
 }
+
+class DeleteProduct extends ProductsEvent {
+  final String id;
+
+  DeleteProduct(this.id);
+}

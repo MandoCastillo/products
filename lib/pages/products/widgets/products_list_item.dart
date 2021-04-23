@@ -15,7 +15,8 @@ class ProductsListItem extends StatelessWidget {
           caption: 'Delete',
           color: Colors.red,
           icon: Icons.delete,
-          // onTap: () => productsCtrl.deleteProduct(product),
+          onTap: () =>
+              context.read<ProductsBloc>().add(DeleteProduct(product.id)),
         ),
       ],
       child: ListTile(
