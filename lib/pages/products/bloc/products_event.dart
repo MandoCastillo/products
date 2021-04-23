@@ -10,3 +10,9 @@ class AddProduct extends ProductsEvent {
 
   AddProduct(this.product);
 }
+
+class UpdateProduct extends ProductsEvent {
+  final Product product;
+
+  UpdateProduct(this.product);
+}

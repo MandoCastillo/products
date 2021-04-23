@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:productos/bloc/products/products_bloc.dart';
 import 'package:productos/models/product_model.dart';
+import 'package:productos/pages/products/bloc/products_bloc.dart';
 import 'package:productos/providers/products_provider.dart';
 
 part 'product_event.dart';
@@ -26,7 +26,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     } else if (event is ProductAvailableChanged) {
       yield _mapProductAvailableChangedToState(event, state);
     } else if (event is ProductPriceChanged) {
-      _mapProductPriceChangedToState(event, state);
+      yield _mapProductPriceChangedToState(event, state);
     } else if (event is ProductSubmitted) {
       yield* _mapProductSubmittedToState(event, state);
     }
@@ -57,9 +57,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       ProductSubmitted event, ProductState state) async* {
     yield state.copyWith(isLoading: true);
     try {
-      final response = await _productsProvider.addProduct(state.product);
-      // print(response);
-      productsBloc.add(AddProduct(response));
+      if (state.product.id != null) {
+        // final response = await _productsProvider.updateProduct(state.product);
+        await _productsProvider.updateProduct(state.product);
+        productsBloc.add(UpdateProduct(state.product));
+      } else {
+        final response = await _productsProvider.addProduct(state.product);
+        productsBloc.add(AddProduct(response));
+      }
       yield state.copyWith(isLoading: false, isFinished: true);
       yield state.copyWith(isFinished: false);
     } catch (e) {

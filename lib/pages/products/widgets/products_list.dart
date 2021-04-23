@@ -1,33 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:productos/bloc/products/products_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:productos/models/product_model.dart';
+import 'package:productos/pages/product_form/bloc/product_bloc.dart';
+import 'package:productos/pages/products/bloc/products_bloc.dart';
 
-class ProductsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Sin datos'),
-      ),
-      body: _ProductsList(),
-      floatingActionButton: _FabAddProduct(),
-    );
-  }
-}
+part 'products_list_item.dart';
 
-class _FabAddProduct extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
-        Navigator.pushNamed(context, 'products-form');
-      },
-      child: Icon(Icons.add),
-    );
-  }
-}
-
-class _ProductsList extends StatelessWidget {
+class ProductsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productsBloc = BlocProvider.of<ProductsBloc>(context);
@@ -49,9 +29,7 @@ class _ProductsList extends StatelessWidget {
         return ListView.builder(
           itemCount: state.products?.length ?? 0,
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(state.products[index].title),
-            );
+            return ProductsListItem(state.products[index]);
           },
         );
       },

@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:productos/bloc/product/product_bloc.dart';
-import 'package:productos/models/product_model.dart';
+import 'package:productos/pages/product_form/bloc/product_bloc.dart';
 
 class ProductsFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productBloc = BlocProvider.of<ProductBloc>(context);
-    final Product productData = ModalRoute.of(context).settings.arguments;
-
-    if (productData != null) {
-      productBloc.add(SetProduct(productData));
-    } else {
-      productBloc.add(SetProduct(new Product()));
-    }
 
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text(productData != null ? 'Editar Producto' : 'Agregar producto'),
+        title: Text(productBloc.state.product.id != null
+            ? 'Editar Producto'
+            : 'Agregar producto'),
       ),
       body: BlocListener<ProductBloc, ProductState>(
         listener: (context, state) {

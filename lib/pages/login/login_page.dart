@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:productos/bloc/auth/auth_bloc.dart';
-import 'package:productos/bloc/login/login_bloc.dart';
+import 'package:productos/pages/login/bloc/login_bloc.dart';
 
 class LoginPage extends StatelessWidget {
   static Route route() => MaterialPageRoute(builder: (_) => LoginPage());

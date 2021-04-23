@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:productos/bloc/auth/auth_bloc.dart';
-import 'package:productos/bloc/login/login_bloc.dart';
-import 'package:productos/bloc/product/product_bloc.dart';
-import 'package:productos/bloc/products/products_bloc.dart';
-import 'package:productos/pages/login_page.dart';
-import 'package:productos/pages/product_form_page.dart';
-import 'package:productos/pages/products_page.dart';
+import 'package:productos/pages/login/bloc/login_bloc.dart';
+import 'package:productos/pages/login/login_page.dart';
+import 'package:productos/pages/product_form/bloc/product_bloc.dart';
+import 'package:productos/pages/product_form/product_form_page.dart';
+import 'package:productos/pages/products/bloc/products_bloc.dart';
+import 'package:productos/pages/products/products_page.dart';
 import 'package:productos/share_prefs/user_preferences.dart';
 
 void main() async {

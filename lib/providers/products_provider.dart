@@ -11,9 +11,7 @@ class ProductsProvider {
 
   Future<List<Product>> getProducts() async {
     final _endpoint = Uri.parse('$_url.json?auth=${_userPreferences.token}');
-
     final response = await http.get(_endpoint);
-
     final Map<String, dynamic> decodeData = json.decode(response.body);
 
     if (decodeData == null) return [];
@@ -35,5 +33,15 @@ class ProductsProvider {
     final decodeData = json.decode(response.body);
     // print(decodeData);
     return product.copyWith(id: decodeData['name']);
+  }
+
+  Future<bool> updateProduct(Product product) async {
+    final _endpoint =
+        Uri.parse('$_url/${product.id}.json?auth=${_userPreferences.token}');
+    // final response = await http.put(_endpoint, body: productToJson(product));
+    await http.put(_endpoint, body: productToJson(product));
+    // final decodeData = json.decode(response.body);
+    // print(decodeData);
+    return true;
   }
 }

@@ -21,6 +21,8 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       yield* _mapProductsGetProducts(event, state);
     } else if (event is AddProduct) {
       yield _mapProductsAddProduct(event, state);
+    } else if (event is UpdateProduct) {
+      yield _mapProductsUpdateProduct(event, state);
     }
   }
 
@@ -38,5 +40,14 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
   ProductsState _mapProductsAddProduct(AddProduct event, ProductsState state) {
     return state.copyWith(products: [...state.products, event.product]);
+  }
+
+  ProductsState _mapProductsUpdateProduct(
+      UpdateProduct event, ProductsState state) {
+    return state.copyWith(
+        products: state.products
+            .map((product) =>
+                product.id == event.product.id ? event.product : product)
+            .toList());
   }
 }
